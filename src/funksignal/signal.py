@@ -39,6 +39,12 @@ class Signal:
             cls.signals[key] = [function]
 
     @classmethod
+    def unbind(cls, key: Union[str, int], callable: callable) -> None:
+        """Unbind a callable from the signal."""
+        if key in cls.signals:
+            cls.signals[key] = [signal for signal in cls.signals[key] if signal.callable != callable]
+
+    @classmethod
     def emit(cls, key: Union[str, int], *args: any, **kwargs: any) -> None:
         """Execute all callables bound to this signal."""
         if not key in cls.signals:
